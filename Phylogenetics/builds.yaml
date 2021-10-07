@@ -1,0 +1,47 @@
+# Define input files.
+inputs:
+  - name: lambda
+    metadata: data/lambda.metadata.tsv
+    sequences: data/lambda.sequences.fasta.gz
+#A build name that will produce the following URL fragment on Nextstrain/auspice:
+  lambda:
+    subsampling_scheme: all 
+    region: South America
+    country: Peru
+subsampling:
+  all:
+    all:
+      no_subsampling: true
+    focal:
+      group_by: "year"
+      max_sequences: 4000
+      exclude: "--exclude-where 'region!={region}' 'country!={country}'"
+  country_peru:
+    # Focal samples for country
+    country:
+      group_by: "year"
+      seq_per_group: 4000
+      exclude: "--exclude-where 'country!={country}'"
+filter:
+  min_length: 27000
+  min_date: 2020-11-01
+
+mask:
+  mask_from_beginning: 250
+  mask_from_end: 250
+
+frequencies:
+  min_date: 2020-11-01
+  max_date: 2021-07-01
+
+refine:
+  root: "best"
+
+# Here, you can specify what type of auspice_config you want to use
+# and what description you want. These will apply to all the above builds.
+# If you want to specify specific files for each build - you can!
+# See the 'example_advanced_customization' builds.yaml
+files:
+  auspice_config: "my_profiles/lambda/auspice_config.json"
+  #colors: "my_profiles/Ago26/colors.tsv"
+  description: my_profiles/lambda/description.md
